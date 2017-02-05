@@ -180,12 +180,11 @@
       <!-- Content Header (Page header) -->
       <section class="content-header">
         <h1>
-          {{$route.name.toUpperCase() }}
-          <small>{{ $route.meta.description }}</small>
+          {{ $route.meta.description || 'Halley.vn'}}
         </h1>
         <ol class="breadcrumb">
           <li><a href="javascript:;"><i class="fa fa-home"></i>Home</a></li>
-          <li class="active">{{$route.name.toUpperCase() }}</li>
+          <li class="active">{{$route.name}}</li>
         </ol>
       </section>
 
@@ -204,6 +203,9 @@
 <script>
 import faker from 'faker'
 require('hideseek')
+// TODO  không hiều tại sao nhưng add cái này bootbox mới chạy :))
+global.jQuery = require('jquery')
+require('bootstrap')
 
 module.exports = {
   name: 'Dash',
@@ -259,6 +261,7 @@ module.exports = {
     // Page is ready. Let's load our functions!
   }
 }
+
 </script>
 
 <style>

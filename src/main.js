@@ -21,7 +21,6 @@ Vue.filter('pluralize', pluralize)
 
 // Resource logic
 Vue.use(Resource)
-
 Vue.use(VueRouter)
 
 Vue.http.interceptors.push((request, next) => {

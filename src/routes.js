@@ -20,13 +20,14 @@ const routes = [
   }, {
     path: '/',
     component: DashView,
-    auth: true,
     children: [
       {
         path: '/users',
         component: UsersView,
         name: 'Users',
-        description: 'Users of my app page'
+        meta: {
+          description: 'Danh sách thành viên'
+        }
       },
       {
         path: '',

@@ -1,62 +1,40 @@
 <template>
   <section class="content">
     <div class="row center-block">
-      <h2>Danh sách thành viên</h2>
       <div class="col-md-12">
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Striped Full Width Table</h3>
+            <h3 class="box-title">Danh sách thành viên</h3>
+            <button v-on:click="addUser(user)" type="button" class="btn btn-primary btn-xs pull-right"><i class="fa fa-plus"></i> Add new</button>
+
           </div>
           <!-- /.box-header -->
           <div class="box-body no-padding">
             <table class="table table-striped">
               <tbody>
-                <tr>
-                  <th style="width: 10px">#</th>
-                  <th>Task</th>
-                  <th>Progress</th>
-                  <th style="width: 40px">Label</th>
-                </tr>
-                <tr>
-                  <td>1.</td>
-                  <td>Update software</td>
-                  <td>
-                    <div class="progress progress-xs">
-                      <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                    </div>
-                  </td>
-                  <td><span class="badge bg-red">55%</span></td>
-                </tr>
-                <tr>
-                  <td>2.</td>
-                  <td>Clean database</td>
-                  <td>
-                    <div class="progress progress-xs">
-                      <div class="progress-bar progress-bar-yellow" style="width: 70%"></div>
-                    </div>
-                  </td>
-                  <td><span class="badge bg-yellow">70%</span></td>
-                </tr>
-                <tr>
-                  <td>3.</td>
-                  <td>Cron job running</td>
-                  <td>
-                    <div class="progress progress-xs progress-striped active">
-                      <div class="progress-bar progress-bar-primary" style="width: 30%"></div>
-                    </div>
-                  </td>
-                  <td><span class="badge bg-light-blue">30%</span></td>
-                </tr>
-                <tr>
-                  <td>4.</td>
-                  <td>Fix and squish bugs</td>
-                  <td>
-                    <div class="progress progress-xs progress-striped active">
-                      <div class="progress-bar progress-bar-success" style="width: 90%"></div>
-                    </div>
-                  </td>
-                  <td><span class="badge bg-green">90%</span></td>
-                </tr>
+              <tr>
+                <th style="width: 10px">#</th>
+                <th>Họ và Tên</th>
+                <th>Tài khoản</th>
+                <th>Loại tài khoản</th>
+                <th>Hoạt động cuối cùng</th>
+                <th></th>
+              </tr>
+              <tr v-for="(user, index) in arrayUsers">
+                <td>{{index + 1}}.</td>
+                <td>Update software</td>
+                <td>Update software</td>
+                <td>Update software</td>
+                <td>
+                  <div class="progress progress-xs">
+                    <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+                  </div>
+                </td>
+                <td class="text-center">
+                  <button type="button" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Edit</button>
+                  <button v-on:click="deleteUser(user)" type="button" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Delete</button>
+                </td>
+              </tr>
               </tbody>
             </table>
           </div>
@@ -70,31 +48,50 @@
 </template>
 
 <script>
-import $ from 'jquery'
+  import dbFirebase from '../../config_firebase'
 
-// Require needed datatables modules
-require('datatables.net')
-require('datatables.net-bs')
+  import bootbox from 'bootbox'
 
-module.exports = {
-  name: 'Tables',
-  mounted: function () {
-    this.$nextTick(function () {
-      $('#example1').DataTable()
-    })
+  module.exports = {
+    name: 'Tables',
+    data: function () {
+      return {
+      }
+    },
+    firebase: function () {
+      return {
+        arrayUsers: dbFirebase.ref('users'),
+        arrayUsers1: {
+          source: dbFirebase.ref('users'),
+          asObject: true
+        }
+      }
+    },
+    mounted: function () {
+
+    },
+    methods: {
+      deleteUser: function (user) {
+        let self = this
+        bootbox.confirm('Bạn muốn xoá dữ liệu này !', function (result) {
+          if (result) {
+            self.$firebaseRefs.arrayUsers.child(user['.key']).remove()
+          }
+        })
+      }
+    }
   }
-}
 </script>
 
 <style>
-/* Using the bootstrap style, but overriding the font to not draw in
-   the Glyphicons Halflings font as an additional requirement for sorting icons.
+  /* Using the bootstrap style, but overriding the font to not draw in
+     the Glyphicons Halflings font as an additional requirement for sorting icons.
 
-   An alternative to the solution active below is to use the jquery style
-   which uses images, but the color on the images does not match adminlte.
+     An alternative to the solution active below is to use the jquery style
+     which uses images, but the color on the images does not match adminlte.
 
-@import url('/static/js/plugins/datatables/jquery.dataTables.min.css');
-*/
+  @import url('/static/js/plugins/datatables/jquery.dataTables.min.css');
+  */
 
-@import url('/static/js/plugins/datatables/dataTables.bootstrap.css');
+  @import url('/static/js/plugins/datatables/dataTables.bootstrap.css');
 </style>
