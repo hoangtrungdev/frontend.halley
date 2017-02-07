@@ -52,19 +52,19 @@
                 <div class="form-group">
                   <label  class="col-sm-2 control-label">Tài khoản</label>
                   <div class="col-sm-10">
-                    <input type="password" class="form-control"  placeholder="Tài khoản">
+                    <input type="text" v-model="objUser.username" class="form-control"  placeholder="Tài khoản">
                   </div>
                 </div>
                 <div class="form-group">
                   <label  class="col-sm-2 control-label">Password</label>
                   <div class="col-sm-10">
-                    <input type="password" class="form-control"  placeholder="Password">
+                    <input type="text"  v-model="objUser.password" class="form-control"  placeholder="Password">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label">Họ và Tên</label>
                   <div class="col-sm-10">
-                    <input type="email" class="form-control" placeholder="Họ và Tên">
+                    <input type="text" class="form-control" placeholder="Họ và Tên">
                   </div>
                 </div>
                 <div class="form-group">
@@ -73,6 +73,7 @@
                     <input type="password" class="form-control"  placeholder="Password">
                   </div>
                 </div>
+
               </div>
               <!-- /.box-body -->
               <div class="box-footer text-right">
@@ -97,7 +98,8 @@
     name: 'Tables',
     data: function () {
       return {
-        isModify: false
+        isModify: false,
+        objUser: {}
       }
     },
     firebase: function () {
