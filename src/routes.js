@@ -11,6 +11,7 @@ import AccessView from './components/dash/Access.vue'
 import ServerView from './components/dash/Server.vue'
 import ReposView from './components/dash/Repos.vue'
 import UsersView from './components/dash/Users.vue'
+import ProductsView from './components/dash/Products.vue'
 
 // Routes
 const routes = [
@@ -27,6 +28,14 @@ const routes = [
         name: 'Users',
         meta: {
           description: 'Danh sách thành viên'
+        }
+      },
+      {
+        path: '/products',
+        component: ProductsView,
+        name: 'Products',
+        meta: {
+          description: 'Danh sách sản phẩm'
         }
       },
       {

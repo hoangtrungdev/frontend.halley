@@ -156,6 +156,7 @@
         <ul class="sidebar-menu">
           <li class="active pageLink" v-on:click="toggleMenu"><router-link to="/"><i class="fa fa-desktop"></i><span class="page">Dashboard</span></router-link></li>
           <li class="pageLink" v-on:click="toggleMenu"><router-link to="/users"><i class="fa fa-user"></i><span class="page">Users</span></router-link></li>
+          <li class="pageLink" v-on:click="toggleMenu"><router-link to="/products"><i class="fa fa-user"></i><span class="page">Products</span></router-link></li>
 
          <!-- <li class="header">ME</li>
           <li class="pageLink" v-on:click="toggleMenu"><router-link to="/tasks"><i class="fa fa-tasks"></i><span class="page">Tasks</span></router-link></li>
@@ -194,7 +195,7 @@
 
     <!-- Main Footer -->
     <footer class="main-footer">
-      <strong>Copyright &copy; {{year}} <a href="javascript:;">CoPilot</a>.</strong> All rights reserved.
+      <strong>Copyright &copy; {{year}} <a href="http://halley.vn/">Halley.vn</a>.</strong> All rights reserved.
     </footer>
   </div>
   <!-- ./wrapper -->
