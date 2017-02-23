@@ -38,7 +38,7 @@
                   <th style="width: 100px">Tồn kho</th>
                   <th></th>
                 </tr>
-                <tr v-for="(product, index) in filterProduct(arrayProducts,filterParams) ">
+                <tr v-for="(product, index) in pagination(filterProduct(arrayProducts,filterParams)) ">
                   <td>{{index + 1}}.</td>
                   <td><img v-bind:src="'http://halley.vn/uploads/products/'+ product.avatar" style="height: 30px" > - {{product.pid}}</td>
                   <td>{{product.name}}</td>
@@ -65,7 +65,7 @@
             </div>
             <div class="box-footer clearfix">
               <ul class="pagination pagination-sm no-margin pull-right">
-                <li v-for="n in getNumberPage(arrayProducts.length,perPage)" v-bind:class="{active: (n - 1) == page}">
+                <li v-for="n in getNumberPage(filterProduct(arrayProducts,filterParams).length)" v-bind:class="{active: (n - 1) == page}">
                   <a v-if="(n - 1) != page" v-on:click="page = (n - 1)">{{n}}</a>
                   <a class="active" v-if="(n - 1) == page" >{{n}}</a>
                 </li>
@@ -121,90 +121,7 @@
   </section>
 </template>
 
-<script>
-  import dbFirebase from '../../config_firebase'
-  import bootbox from 'bootbox'
-
-  module.exports = {
-    name: 'Tables',
-    filters: {
-      filterProduct: function (value) {
-        return value
-      }
-    },
-    data: function () {
-      return {
-        isModify: false,
-        filterParams: {
-          pid: '',
-          name: ''
-        },
-        perPage: 10,
-        page: 0,
-        objProduct: {}
-      }
-    },
-    firebase: function () {
-      return {
-        arrayProducts: dbFirebase.ref('products')
-      }
-    },
-    mounted: function () {
-      this.$nextTick(function () {
-      })
-    },
-    methods: {
-      getNumberPage (arrayLength, perPage) {
-        return Math.ceil(arrayLength / perPage)
-      },
-      filterProduct (array, filterParams) {
-        let self = this
-        array = array.filter(function (item) {
-          filterParams.name = filterParams.name || ''
-          return (item.name.toLowerCase().indexOf(filterParams.name.toLowerCase()) > -1) && (item.pid.toLowerCase().indexOf(filterParams.pid.toLowerCase()) > -1)
-        })
-        return array.slice(self.page * self.perPage, (self.page * 1 + 1) * self.perPage)
-      },
-      deleteProduct: function (user) {
-        let self = this
-        bootbox.confirm('Bạn muốn xoá dữ liệu này !', function (result) {
-          if (result) {
-            self.$firebaseRefs.arrayProducts.child(user['.key']).remove()
-          }
-        })
-      },
-      addOrUpdateProduct: function (objProduct) {
-        let self = this
-        if (objProduct['.key']) {
-          let _key = objProduct['.key']
-          // clone để không binding 2 way
-          let objUpdate = JSON.parse(JSON.stringify(objProduct))
-          delete objUpdate['.key']
-          self.$firebaseRefs.arrayProducts.child(_key).set(objUpdate)
-        } else {
-          self.$firebaseRefs.arrayProducts.push(objProduct)
-        }
-        self.objProduct = {}
-        self.isModify = false
-      },
-      editProduct: function (product) {
-        let self = this
-        self.objProduct = product
-        self.isModify = true
-      }
-    }
-  }
-</script>
-
+<script src="./Products.js"></script>
 <style>
-  /* Using the bootstrap style, but overriding the font to not draw in
-     the Glyphicons Halflings font as an additional requirement for sorting icons.
-
-     An alternative to the solution active below is to use the jquery style
-     which uses images, but the color on the images does not match adminlte.
-
-  @import url('/static/js/plugins/datatables/jquery.dataTables.min.css');
-  */
-
   @import url('/static/js/plugins/datatables/dataTables.bootstrap.css');
 </style>
