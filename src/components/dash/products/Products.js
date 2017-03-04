@@ -3,7 +3,7 @@
  */
 
 import dbFirebase from '../../../config_firebase'
-import bootbox from 'bootbox'
+/* global bootbox */
 
 module.exports = {
   name: 'Tables',

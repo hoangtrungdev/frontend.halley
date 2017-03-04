@@ -10,8 +10,10 @@ import SettingView from './components/dash/Setting.vue'
 import AccessView from './components/dash/Access.vue'
 import ServerView from './components/dash/Server.vue'
 import ReposView from './components/dash/Repos.vue'
+
 import UsersView from './components/dash/Users.vue'
 import ProductsView from './components/dash/products/Products.vue'
+import CartsView from './components/dash/carts/Carts.vue'
 
 // Routes
 const routes = [
@@ -36,6 +38,14 @@ const routes = [
         name: 'products',
         meta: {
           description: 'Danh sách sản phẩm'
+        }
+      },
+      {
+        path: '/carts',
+        component: CartsView,
+        name: 'carts',
+        meta: {
+          description: 'Đơn hàng'
         }
       },
       {

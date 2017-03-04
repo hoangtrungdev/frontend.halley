@@ -23,92 +23,28 @@
             <!-- Messages-->
             <li class="dropdown messages-menu">
               <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-envelope-o"></i>
-                <span class="label label-success">{{ state.userInfo.messages | count }}</span>
+                <i class="fa fa-cart-plus"></i>
+                <span class="label label-success">{{ getCartNew(arrayCarts) | count }}</span>
               </a>
               <ul class="dropdown-menu">
-                <li class="header">You have {{ state.userInfo.messages | count }} message(s)</li>
-                <li v-if="state.userInfo.messages.length > 0">
-                  <!-- inner menu: contains the messages -->
+                <li class="header">bạn có {{ getCartNew(arrayCarts) | count }} đơn hàng mới</li>
+                <li v-if="arrayCarts.length > 0">
                   <ul class="menu">
-                    <li><!-- start message -->
-                      <a href="javascript:;">
-                        <!-- Message title and timestamp -->
-                        <h4>
-                          Support Team
-                          <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                        </h4>
-                        <!-- The message -->
-                        <p>Why not consider this a test message?</p>
+                    <li v-for="(cart, index) in getCartNew(arrayCarts) ">
+                      <a href="#">
+                        <i class="fa fa-bell text-aqua"></i> - bạn có đơn hàng từ Hoàng Trung
+                        <div class="text-right">
+                          <small><i class="fa fa-clock-o"></i> {{timeAgo(cart.date)}}</small>
+                        </div>
                       </a>
                     </li>
-                    <!-- end message -->
                   </ul>
-                  <!-- /.menu -->
                 </li>
                 <li class="footer" v-if="state.userInfo.messages.length > 0"><a href="javascript:;">See All Messages</a></li>
               </ul>
             </li>
             <!-- /.messages-menu -->
 
-            <!-- Notifications Menu -->
-            <li class="dropdown notifications-menu">
-              <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-bell-o"></i>
-                <span class="label label-warning">{{ state.userInfo.notifications | count }}</span>
-              </a>
-              <ul class="dropdown-menu">
-                <li class="header">You have {{ state.userInfo.notifications | count }} notification(s)</li>
-                <li v-if="state.userInfo.notifications.length > 0">
-                  <!-- Inner Menu: contains the notifications -->
-                  <ul class="menu">
-                    <li><!-- start notification -->
-                      <a href="javascript:;">
-                        <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                      </a>
-                    </li>
-                    <!-- end notification -->
-                  </ul>
-                </li>
-                <li class="footer" v-if="state.userInfo.notifications.length > 0"><a href="javascript:;">View all</a></li>
-              </ul>
-            </li>
-
-            <!-- Tasks Menu -->
-            <li class="dropdown tasks-menu">
-              <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-flag-o"></i>
-                <span class="label label-danger">{{ state.userInfo.tasks | count }} </span>
-              </a>
-              <ul class="dropdown-menu">
-                <li class="header">You have {{ state.userInfo.tasks | count }}  task(s)</li>
-                <li v-if="state.userInfo.tasks.length > 0">
-                  <!-- Inner menu: contains the tasks -->
-                  <ul class="menu">
-                    <li><!-- Task item -->
-                      <a href="javascript:;">
-                        <!-- Task title and progress text -->
-                        <h3>
-                          Design some buttons
-                          <small class="pull-right">20%</small>
-                        </h3>
-                        <!-- The progress bar -->
-                        <div class="progress xs">
-                          <!-- Change the css width attribute to simulate progress -->
-                          <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                            <span class="sr-only">20% Complete</span>
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                    <!-- end task item -->
-                  </ul>
-                </li>
-                <li class="footer" v-if="state.userInfo.tasks.length > 0">
-                  <a href="javascript:;">View all tasks</a>
-                </li>
-              </ul>
-            </li>
 
             <!-- User Account Menu -->
             <li class="dropdown user user-menu">
@@ -144,7 +80,7 @@
         <form v-on:submit.prevent class="sidebar-form">
           <div class="input-group">
             <input type="text" name="search" id="search" class="search form-control" data-toggle="hideseek" placeholder="Tìm Kiếm" data-list=".sidebar-menu">
-                <span class="input-group-btn">
+            <span class="input-group-btn">
                   <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
                   </button>
                 </span>
@@ -156,21 +92,22 @@
         <ul class="sidebar-menu">
           <li class="active pageLink" v-on:click="toggleMenu"><router-link to="/"><i class="fa fa-desktop"></i><span class="page">Dashboard</span></router-link></li>
           <li class="pageLink" v-on:click="toggleMenu"><router-link to="/users"><i class="fa fa-user"></i><span class="page">Users</span></router-link></li>
-          <li class="pageLink" v-on:click="toggleMenu"><router-link to="/products"><i class="fa fa-user"></i><span class="page">Products</span></router-link></li>
+          <li class="pageLink" v-on:click="toggleMenu"><router-link to="/products"><i class="fa fa-cube"></i><span class="page">Products</span></router-link></li>
+          <li class="pageLink" v-on:click="toggleMenu"><router-link to="/carts"><i class="fa fa-cart-plus"></i><span class="page">Carts</span></router-link></li>
 
-         <!-- <li class="header">ME</li>
-          <li class="pageLink" v-on:click="toggleMenu"><router-link to="/tasks"><i class="fa fa-tasks"></i><span class="page">Tasks</span></router-link></li>
-          <li class="pageLink" v-on:click="toggleMenu"><router-link to="/setting"><i class="fa fa-cog"></i><span class="page">Settings</span></router-link></li>
+          <!-- <li class="header">ME</li>
+           <li class="pageLink" v-on:click="toggleMenu"><router-link to="/tasks"><i class="fa fa-tasks"></i><span class="page">Tasks</span></router-link></li>
+           <li class="pageLink" v-on:click="toggleMenu"><router-link to="/setting"><i class="fa fa-cog"></i><span class="page">Settings</span></router-link></li>
 
-          <li class="header">LOGS</li>
-          <li class="pageLink" v-on:click="toggleMenu"><router-link to="/access"><i class="fa fa-book"></i><span class="page">Access</span></router-link></li>
-          <li class="pageLink" v-on:click="toggleMenu"><router-link to="/server"><i class="fa fa-hdd-o"></i><span class="page">Server</span></router-link></li>
-          <li class="pageLink" v-on:click="toggleMenu"><router-link to="/repos"><i class="fa fa-heart"></i><span class="page">Repos</span><small class="label pull-right bg-green">AJAX</small></router-link></li>
+           <li class="header">LOGS</li>
+           <li class="pageLink" v-on:click="toggleMenu"><router-link to="/access"><i class="fa fa-book"></i><span class="page">Access</span></router-link></li>
+           <li class="pageLink" v-on:click="toggleMenu"><router-link to="/server"><i class="fa fa-hdd-o"></i><span class="page">Server</span></router-link></li>
+           <li class="pageLink" v-on:click="toggleMenu"><router-link to="/repos"><i class="fa fa-heart"></i><span class="page">Repos</span><small class="label pull-right bg-green">AJAX</small></router-link></li>
 
-          <li class="header">PAGES</li>
-          <li class="pageLink" v-on:click="toggleMenu"><router-link to="/login"><i class="fa fa-circle-o text-yellow"></i> <span class="page">Login</span></router-link></li>
-          <li class="pageLink" v-on:click="toggleMenu"><router-link to="/404"><i class="fa fa-circle-o text-red"></i> <span class="page">404</span></router-link></li>
-        --></ul>
+           <li class="header">PAGES</li>
+           <li class="pageLink" v-on:click="toggleMenu"><router-link to="/login"><i class="fa fa-circle-o text-yellow"></i> <span class="page">Login</span></router-link></li>
+           <li class="pageLink" v-on:click="toggleMenu"><router-link to="/404"><i class="fa fa-circle-o text-red"></i> <span class="page">404</span></router-link></li>
+         --></ul>
         <!-- /.sidebar-menu -->
       </section>
       <!-- /.sidebar -->
@@ -202,77 +139,95 @@
 </template>
 
 <script>
-import faker from 'faker'
-require('hideseek')
-// TODO  không hiều tại sao nhưng add cái này bootbox mới chạy :))
-global.jQuery = require('jquery')
-require('bootstrap')
+  import faker from 'faker'
+  import moment from 'moment'
+  require('hideseek')
+  import dbFirebase from '../config_firebase'
+  var _ = require('underscore')
 
-module.exports = {
-  name: 'Dash',
-  data: function () {
-    return {
-      section: 'Dash',
-      me: '',
-      error: '',
-      api: {
-        servers: {
-          url: '', // Back end server
-          result: []
+  module.exports = {
+    name: 'Dash',
+    data: function () {
+      return {
+        section: 'Dash',
+        me: '',
+        error: '',
+        api: {
+          servers: {
+            url: '', // Back end server
+            result: []
+          }
         }
       }
-    }
-  },
-  computed: {
-    store: function () {
-      return this.$parent.$store
     },
-    state: function () {
-      return this.store.state
-    },
-    callAPI: function () {
-      return this.$parent.callAPI
-    },
-    demo: function () {
+    firebase: function () {
       return {
-        displayName: faker.name.findName(),
-        avatar: faker.image.avatar(),
-        email: faker.internet.email(),
-        randomCard: faker.helpers.createCard()
+        arrayCarts: dbFirebase.ref('carts')
       }
     },
-    year: function () {
-      var y = new Date()
-      return y.getFullYear()
-    }
-  },
-  methods: {
-    changeloading: function () {
-      this.store.dispatch('TOGGLE_SEARCHING')
+    computed: {
+      store: function () {
+        return this.$parent.$store
+      },
+      state: function () {
+        return this.store.state
+      },
+      callAPI: function () {
+        return this.$parent.callAPI
+      },
+      demo: function () {
+        return {
+          displayName: faker.name.findName(),
+          avatar: faker.image.avatar(),
+          email: faker.internet.email(),
+          randomCard: faker.helpers.createCard()
+        }
+      },
+      year: function () {
+        var y = new Date()
+        return y.getFullYear()
+      }
     },
-    toggleMenu: function (event) {
-      // remove active from li
-      window.$('li.pageLink').removeClass('active')
+    methods: {
+      changeloading: function () {
+        this.store.dispatch('TOGGLE_SEARCHING')
+      },
+      toggleMenu: function (event) {
+        // remove active from li
+        window.$('li.pageLink').removeClass('active')
 
-      // Add it to the item that was clicked
-      event.toElement.parentElement.className = 'pageLink active'
+        // Add it to the item that was clicked
+        event.toElement.parentElement.className = 'pageLink active'
+      },
+      timeAgo: function (date) {
+        return moment(date).fromNow()
+      },
+      getCartNew (array) {
+        let returnArray = []
+        returnArray = _.sortBy(array, function (cart) {
+          return -cart['date']
+        })
+        returnArray = returnArray.filter((cart) => {
+          return cart.new === true
+        })
+        return returnArray
+      }
+    },
+    mounted: function () {
+      // Page is ready. Let's load our functions!
     }
-  },
-  mounted: function () {
-    // Page is ready. Let's load our functions!
   }
-}
 
 </script>
 
 <style>
-.user-panel {
-  height: 4em;
-}
-hr.visible-xs-block {
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.17);
-  height: 1px;
-  border-color: transparent;
-}
+  .user-panel {
+    height: 4em;
+  }
+  hr.visible-xs-block {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.17);
+    height: 1px;
+    border-color: transparent;
+  }
 </style>
