@@ -3,6 +3,7 @@
  */
 
 import dbFirebase from '../../../config_firebase'
+var _ = require('underscore')
 /* global bootbox */
 
 module.exports = {
@@ -20,7 +21,6 @@ module.exports = {
         name: ''
       },
       perPage: 10,
-      page: 0,
       objCart: {}
     }
   },
@@ -43,5 +43,31 @@ module.exports = {
       }
       self.$firebaseRefs.arrayCarts.push(objCart)
     },
+    deleteCart: function (cart) {
+      let self = this
+      bootbox.confirm('Bạn muốn xoá dữ liệu này !', function (result) {
+        if (result) {
+          self.$firebaseRefs.arrayCarts.child(cart['.key']).remove()
+        }
+      })
+    },
+    editCart: function (objCart) {
+      let self = this
+      if (objCart['.key']) {
+        let _key = objCart['.key']
+        // clone để không binding 2 way
+        let objUpdate = JSON.parse(JSON.stringify(objCart))
+        delete objUpdate['.key']
+        self.$firebaseRefs.arrayCarts.child(_key).set(objUpdate)
+      }
+    },
+    sortCart (array) {
+      let returnArray = []
+      returnArray = _.sortBy(array, function (cart) {
+        return -cart['date']
+      })
+      return returnArray
+    }
+
   }
 }

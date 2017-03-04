@@ -57,11 +57,11 @@ module.exports = {
       let self = this
       return array.slice(self.page * self.perPage, (self.page * 1 + 1) * self.perPage)
     },
-    deleteProduct: function (user) {
+    deleteProduct: function (product) {
       let self = this
       bootbox.confirm('Bạn muốn xoá dữ liệu này !', function (result) {
         if (result) {
-          self.$firebaseRefs.arrayProducts.child(user['.key']).remove()
+          self.$firebaseRefs.arrayProducts.child(product['.key']).remove()
         }
       })
     },

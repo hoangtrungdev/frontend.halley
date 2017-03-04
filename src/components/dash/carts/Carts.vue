@@ -10,9 +10,27 @@
           </div>
           <!-- carts list -->
           <div v-bind:class="{hidden: isModify}">
-            <tr v-for="(cart, index) in arrayCarts ">
-              <td>{{cart}}</td>
-            </tr>
+            <table class="table table-striped">
+              <tbody>
+              <tr>
+                <th style="width: 10px">#</th>
+                <th></th>
+                <th></th>
+                <th></th>
+              </tr>
+              <tr v-for="(cart, index) in sortCart(arrayCarts) ">
+                <td>{{index +1}}</td>
+                <td>{{cart}}</td>
+                <td>
+                  <input type="checkbox" v-model="cart.new" v-on:change="editCart(cart)">
+                </td>
+                <td class="text-right">
+                  <button v-on:click="editCart(cart)" type="button" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Edit</button>
+                  <button v-on:click="deleteCart(cart)" type="button" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Delete</button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
           </div>
 
           <!-- carts add -->

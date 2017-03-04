@@ -24,13 +24,15 @@
             <li class="dropdown messages-menu">
               <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
                 <i class="fa fa-cart-plus"></i>
-                <span class="label label-success">{{ getCartNew(arrayCarts) | count }}</span>
+                <span class="label label-success">{{ getCartNew(arrayCarts, true) | count }}</span>
               </a>
               <ul class="dropdown-menu">
-                <li class="header">bạn có {{ getCartNew(arrayCarts) | count }} đơn hàng mới</li>
+                <li class="header">
+                  bạn có {{ getCartNew(arrayCarts) | count }} đơn hàng mới
+                </li>
                 <li v-if="arrayCarts.length > 0">
                   <ul class="menu">
-                    <li v-for="(cart, index) in getCartNew(arrayCarts) ">
+                    <li v-for="(cart, index) in getCartNew(arrayCarts)" v-bind:class="{isNewCart: cart.new}">
                       <a href="#">
                         <i class="fa fa-bell text-aqua"></i> - bạn có đơn hàng từ Hoàng Trung
                         <div class="text-right">
@@ -202,14 +204,16 @@
       timeAgo: function (date) {
         return moment(date).fromNow()
       },
-      getCartNew (array) {
+      getCartNew (array, onlyNew = false) {
         let returnArray = []
         returnArray = _.sortBy(array, function (cart) {
           return -cart['date']
         })
-        returnArray = returnArray.filter((cart) => {
-          return cart.new === true
-        })
+        if (onlyNew) {
+          returnArray = returnArray.filter((cart) => {
+            return cart.new === true
+          })
+        }
         return returnArray
       }
     },
@@ -229,5 +233,8 @@
     background-color: rgba(0, 0, 0, 0.17);
     height: 1px;
     border-color: transparent;
+  }
+  .isNewCart{
+    background: rgba(60, 141, 188, 0.13);
   }
 </style>
