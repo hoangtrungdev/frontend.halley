@@ -32,7 +32,7 @@
                 </li>
                 <li v-if="arrayCarts.length > 0">
                   <ul class="menu">
-                    <li v-for="(cart, index) in getCartNew(arrayCarts)" v-bind:class="{isNewCart: cart.new}">
+                    <li v-for="(cart, index) in getCartNew(arrayCarts, true)" v-bind:class="{isNewCart: (cart.status === 'new')}">
                       <a href="#">
                         <i class="fa fa-bell text-aqua"></i> - bạn có đơn hàng từ Hoàng Trung
                         <div class="text-right">
@@ -211,7 +211,7 @@
         })
         if (onlyNew) {
           returnArray = returnArray.filter((cart) => {
-            return cart.new === true
+            return cart.status === 'new'
           })
         }
         return returnArray

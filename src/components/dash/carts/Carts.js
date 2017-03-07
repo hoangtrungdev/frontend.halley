@@ -8,11 +8,6 @@ var _ = require('underscore')
 
 module.exports = {
   name: 'Carts',
-  filters: {
-    filterProduct: function (value) {
-      return value
-    }
-  },
   data: function () {
     return {
       isModify: false,
@@ -26,6 +21,7 @@ module.exports = {
   },
   firebase: function () {
     return {
+      arrayProducts: dbFirebase.ref('products'),
       arrayCarts: dbFirebase.ref('carts')
     }
   },
@@ -34,15 +30,6 @@ module.exports = {
     })
   },
   methods: {
-    addCart: function (objCart) {
-      let self = this
-      objCart = {
-        name : 'abc',
-        new : true,
-        date : new Date().getTime()
-      }
-      self.$firebaseRefs.arrayCarts.push(objCart)
-    },
     deleteCart: function (cart) {
       let self = this
       bootbox.confirm('Bạn muốn xoá dữ liệu này !', function (result) {
@@ -51,7 +38,7 @@ module.exports = {
         }
       })
     },
-    editCart: function (objCart) {
+    addOrUpdateCart: function (objCart) {
       let self = this
       if (objCart['.key']) {
         let _key = objCart['.key']
@@ -59,7 +46,21 @@ module.exports = {
         let objUpdate = JSON.parse(JSON.stringify(objCart))
         delete objUpdate['.key']
         self.$firebaseRefs.arrayCarts.child(_key).set(objUpdate)
+      } else {
+        let objDefault = {
+          status : 'new',
+          date : new Date().getTime()
+        }
+        objCart = Object.assign(objDefault, objCart)
+        self.$firebaseRefs.arrayCarts.push(objCart)
       }
+      self.objCart = {}
+      self.isModify = false
+    },
+    editCart: function (objCart) {
+      let self = this
+      self.objCart = Object.assign({}, objCart)
+      self.isModify = true
     },
     sortCart (array) {
       let returnArray = []
@@ -67,7 +68,12 @@ module.exports = {
         return -cart['date']
       })
       return returnArray
+    },
+    getTrangThaiCart (status) {
+      let arrayStatus = {
+        'new' : 'Đơn hàng mới'
+      }
+      return arrayStatus[status]
     }
-
   }
 }

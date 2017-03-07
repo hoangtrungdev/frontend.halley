@@ -14,16 +14,20 @@
               <tbody>
               <tr>
                 <th style="width: 10px">#</th>
-                <th></th>
-                <th></th>
+                <th>Tên khách hàng</th>
+                <th>Số điện thoại </th>
+                <th>Địa chỉ </th>
+                <th>Thời gian giao hàng </th>
+                <th>Tình trạng</th>
                 <th></th>
               </tr>
               <tr v-for="(cart, index) in sortCart(arrayCarts) ">
                 <td>{{index +1}}</td>
-                <td>{{cart}}</td>
-                <td>
-                  <input type="checkbox" v-model="cart.new" v-on:change="editCart(cart)">
-                </td>
+                <td>{{cart.customer_name}}</td>
+                <td>{{cart.customer_phone}}</td>
+                <td>{{cart.customer_address}}</td>
+                <td>{{cart.customer_time || 'không có thông tin'}}</td>
+                <td>{{getTrangThaiCart(cart.status)}}</td>
                 <td class="text-right">
                   <button v-on:click="editCart(cart)" type="button" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Edit</button>
                   <button v-on:click="deleteCart(cart)" type="button" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Delete</button>
@@ -37,17 +41,51 @@
           <div class="box-body no-padding" v-bind:class="{hidden: !isModify}">
             <div class="box-body">
               <form  role="form">
-                <div class="col-xs-4"></div>
-                <div class="box-body col-xs-8">
+                <div class="box-body col-xs-6">
+                  <table class="table table-striped">
+                    <tbody>
+                    <tr>
+                      <th style="width: 10px">#</th>
+                      <th>Sản phẩm</th>
+                      <th>Số lượng </th>
+                      <th></th>
+                    </tr>
+                    </tbody>
+                  </table>
                   <div class="form-group">
-                    <label >Mã sản phẩm</label>
-                    <input type="text" v-model="objCart.pid" class="form-control" placeholder="Mã sản phẩm">
+                    <label >Tìm kiếm sản phẩm</label>
+                    <input type="text" v-model="objCart.customer_name" class="form-control" placeholder="Tìm kiếm sản phẩm">
+                  </div>
+                  <div class="col-xs-3" v-for="(product, index) in arrayProducts ">
+                    <div class="text-center">
+                      <img v-bind:src="'http://halley.vn/uploads/products/'+ product.avatar" style="height: 100px " >
+                    </div>
+                    {{product.name}} - {{product.pid}}
+                  </div>
+
+                </div>
+                <div class="box-body col-xs-6">
+                  <div class="form-group">
+                    <label >Tên khách hàng</label>
+                    <input type="text" v-model="objCart.customer_name" class="form-control" placeholder="Tên khách hàng">
+                  </div>
+                  <div class="form-group">
+                    <label >Số điện thoại</label>
+                    <input type="text" v-model="objCart.customer_phone" class="form-control" placeholder="Số điện thoại">
+                  </div>
+                  <div class="form-group">
+                    <label >Địa chỉ</label>
+                    <input type="text" v-model="objCart.customer_address" class="form-control" placeholder="Địa chỉ">
+                  </div>
+                  <div class="form-group">
+                    <label >Thời gian giao hàng</label>
+                    <input type="text" v-model="objCart.customer_time" class="form-control" placeholder="Thời gian giao hàng">
                   </div>
                 </div>
                 <div class="clearfix"></div>
                 <div class="box-footer text-right ">
                   <a class="btn btn-default btn-sm" v-on:click="isModify = false">Cancel</a>
-                  <a class="btn btn-primary btn-sm" v-on:click="addCart(objCart)">Submit</a>
+                  <a class="btn btn-primary btn-sm" v-on:click="addOrUpdateCart(objCart)">Submit</a>
                 </div>
                 <!-- /.box-footer -->
               </form>
