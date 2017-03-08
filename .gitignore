@@ -7,4 +7,6 @@ test/e2e/reports
 selenium-debug.log
 .netlify
 .idea/
+.idea/workspace.xml
+
 
