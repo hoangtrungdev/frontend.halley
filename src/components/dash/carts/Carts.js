@@ -6,6 +6,10 @@ import dbFirebase from '../../../config_firebase'
 import vSelect from 'vue-select'
 var _ = require('underscore')
 /* global bootbox */
+var defaultObjCart = {
+  cartDetails: [],
+  status: 'new'
+}
 
 module.exports = {
   name: 'Carts',
@@ -17,9 +21,14 @@ module.exports = {
         name: ''
       },
       perPage: 10,
-      objCart: {
-        cartDetails: []
-      }
+      objCart: Object.assign({}, defaultObjCart),
+      arrayStatus: {
+        'new' : 'Đơn hàng mới',
+        'confirm' : 'Đã xác nhận',
+        'complete' : 'Hoàn thành',
+        'destroy' : 'Hủy'
+      },
+      disChangeStatus: true
     }
   },
   components: {
@@ -38,10 +47,9 @@ module.exports = {
   methods: {
     addNewCart: function () {
       let self = this
-      self.objCart = {
-        cartDetails: []
-      }
+      self.objCart = Object.assign({}, defaultObjCart)
       self.isModify = true
+      self.disChangeStatus = true
     },
     deleteCart: function (cart) {
       let self = this
@@ -67,15 +75,15 @@ module.exports = {
         objCart = Object.assign(objDefault, objCart)
         self.$firebaseRefs.arrayCarts.push(objCart)
       }
-      self.objCart = {
-        cartDetails: []
-      }
+      self.objCart = Object.assign({}, defaultObjCart)
       self.isModify = false
     },
     editCart: function (objCart) {
       let self = this
       self.objCart = Object.assign({}, objCart)
       self.isModify = true
+      self.disChangeStatus = true
+
     },
     sortCart (array) {
       let returnArray = []
@@ -85,10 +93,7 @@ module.exports = {
       return returnArray
     },
     getTrangThaiCart (status) {
-      let arrayStatus = {
-        'new' : 'Đơn hàng mới'
-      }
-      return arrayStatus[status]
+      return this.arrayStatus[status]
     },
     mapSelect2Product (arrayProducts) {
       return arrayProducts.map((product) => {
