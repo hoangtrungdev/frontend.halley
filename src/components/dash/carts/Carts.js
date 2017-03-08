@@ -3,6 +3,7 @@
  */
 
 import dbFirebase from '../../../config_firebase'
+import vSelect from 'vue-select'
 var _ = require('underscore')
 /* global bootbox */
 
@@ -16,8 +17,13 @@ module.exports = {
         name: ''
       },
       perPage: 10,
-      objCart: {}
+      objCart: {
+        cartDetails: []
+      }
     }
+  },
+  components: {
+    vSelect
   },
   firebase: function () {
     return {
@@ -30,6 +36,13 @@ module.exports = {
     })
   },
   methods: {
+    addNewCart: function () {
+      let self = this
+      self.objCart = {
+        cartDetails: []
+      }
+      self.isModify = true
+    },
     deleteCart: function (cart) {
       let self = this
       bootbox.confirm('Bạn muốn xoá dữ liệu này !', function (result) {
@@ -54,7 +67,9 @@ module.exports = {
         objCart = Object.assign(objDefault, objCart)
         self.$firebaseRefs.arrayCarts.push(objCart)
       }
-      self.objCart = {}
+      self.objCart = {
+        cartDetails: []
+      }
       self.isModify = false
     },
     editCart: function (objCart) {
@@ -74,6 +89,15 @@ module.exports = {
         'new' : 'Đơn hàng mới'
       }
       return arrayStatus[status]
+    },
+    mapSelect2Product (arrayProducts) {
+      return arrayProducts.map((product) => {
+        delete product['.key']
+        return Object.assign({
+            label: `${product.pid} - ${product.name} - ${product.color}`,
+            soluong: 1
+          }, product)
+      })
     }
   }
 }

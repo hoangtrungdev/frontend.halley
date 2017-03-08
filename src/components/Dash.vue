@@ -32,13 +32,13 @@
                 </li>
                 <li v-if="arrayCarts.length > 0">
                   <ul class="menu">
-                    <li v-for="(cart, index) in getCartNew(arrayCarts, true)" v-bind:class="{isNewCart: (cart.status === 'new')}">
-                      <a href="#">
-                        <i class="fa fa-bell text-aqua"></i> - bạn có đơn hàng từ Hoàng Trung
+                    <li v-for="(cart, index) in getCartNew(arrayCarts, true)" >
+                      <router-link to="/carts">
+                      <i class="fa fa-bell text-aqua"></i> - bạn có đơn hàng từ {{cart.customer_name}}
                         <div class="text-right">
                           <small><i class="fa fa-clock-o"></i> {{timeAgo(cart.date)}}</small>
                         </div>
-                      </a>
+                      </router-link>
                     </li>
                   </ul>
                 </li>

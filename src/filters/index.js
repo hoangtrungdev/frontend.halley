@@ -1,4 +1,5 @@
 const urlParser = document.createElement('a')
+const numeral = require('numeral')
 
 export function domain (url) {
   urlParser.href = url
@@ -7,6 +8,10 @@ export function domain (url) {
 
 export function count (arr) {
   return arr.length
+}
+
+export function formatPrice (number) {
+  return numeral(number).format('0,0')
 }
 
 export function prettyDate (date) {

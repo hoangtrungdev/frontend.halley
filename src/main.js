@@ -7,7 +7,7 @@ import routes from './routes'
 import store from './store'
 
 // Import Helpers for filters
-import { domain, count, prettyDate, pluralize } from './filters'
+import { domain, count, formatPrice, prettyDate, pluralize } from './filters'
 
 // Import Views - Top level
 
@@ -15,6 +15,7 @@ import AppView from './components/App.vue'
 
 // Import Install and register helper items
 Vue.filter('count', count)
+Vue.filter('formatPrice', formatPrice)
 Vue.filter('domain', domain)
 Vue.filter('prettyDate', prettyDate)
 Vue.filter('pluralize', pluralize)

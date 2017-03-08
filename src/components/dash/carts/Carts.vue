@@ -5,7 +5,7 @@
         <div class="box box-info">
           <div class="box-header with-border">
             <h3 class="box-title">{{!isModify?'Danh sách đơn hàng':'Thêm đơn hàng'}}</h3>
-            <button v-on:click="isModify = true ; objProduct= {}" v-bind:class="{hidden: isModify}" type="button" class="btn btn-primary btn-xs pull-right"><i class="fa fa-plus"></i> Add new</button>
+            <button v-on:click="addNewCart()" v-bind:class="{hidden: isModify}" type="button" class="btn btn-primary btn-xs pull-right"><i class="fa fa-plus"></i> Add new</button>
             <button v-on:click="isModify = false" v-bind:class="{hidden: !isModify}" type="button" class="btn btn-primary btn-xs pull-right"><i class="fa fa-arrow-left"></i> Back</button>
           </div>
           <!-- carts list -->
@@ -41,27 +41,29 @@
           <div class="box-body no-padding" v-bind:class="{hidden: !isModify}">
             <div class="box-body">
               <form  role="form">
+                <div class="form-group">
+                  <label >Tìm kiếm sản phẩm</label>
+                  <v-select multiple v-model="objCart.cartDetails" :options="mapSelect2Product(arrayProducts)"></v-select>
+                </div>
                 <div class="box-body col-xs-6">
-                  <table class="table table-striped">
+                  <table class="table table-striped" style="margin-top: 10px">
                     <tbody>
                     <tr>
                       <th style="width: 10px">#</th>
                       <th>Sản phẩm</th>
+                      <th>Giá</th>
                       <th>Số lượng </th>
-                      <th></th>
+                      <th>Thành tiền </th>
+                    </tr>
+                    <tr v-for="(product, index) in objCart.cartDetails ">
+                      <td class="pad-top-15">{{index + 1}}.</td>
+                      <td class="pad-top-15">{{product.pid}} - {{product.name}} - {{product.color}}</td>
+                      <td class="pad-top-15">{{product.price | formatPrice}}</td>
+                      <td><input type="number" v-model="product.soluong" min="0" class="form-control" style="width: 60px"></td>
+                      <td class="pad-top-15">{{product.price * product.soluong | formatPrice}}</td>
                     </tr>
                     </tbody>
                   </table>
-                  <div class="form-group">
-                    <label >Tìm kiếm sản phẩm</label>
-                    <input type="text" v-model="objCart.customer_name" class="form-control" placeholder="Tìm kiếm sản phẩm">
-                  </div>
-                  <div class="col-xs-3" v-for="(product, index) in arrayProducts ">
-                    <div class="text-center">
-                      <img v-bind:src="'http://halley.vn/uploads/products/'+ product.avatar" style="height: 100px " >
-                    </div>
-                    {{product.name}} - {{product.pid}}
-                  </div>
 
                 </div>
                 <div class="box-body col-xs-6">
@@ -99,5 +101,6 @@
 
 <script src="./Carts.js"></script>
 <style>
-  @import url('/static/js/plugins/datatables/dataTables.bootstrap.css');
+  .v-select .selected-tag .close {float: right !important;font-size: 22px !important;margin: 0px 0px 0px 8px !important;}
+  .pad-top-15{padding-top: 15px !important}
 </style>
