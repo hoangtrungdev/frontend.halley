@@ -22,13 +22,12 @@ module.exports = {
       },
       perPage: 10,
       objCart: Object.assign({}, defaultObjCart),
-      arrayStatus: {
-        'new' : 'Đơn hàng mới',
-        'confirm' : 'Đã xác nhận',
-        'complete' : 'Hoàn thành',
-        'destroy' : 'Hủy'
-      },
-      disChangeStatus: true
+      arrayStatus: [
+        {key : 'new', value : 'Đơn hàng mới', allowStaus : ['confirm','complete','destroy']},
+        {key : 'confirm', value  : 'Đã xác nhận', allowStaus : ['complete','destroy']},
+        {key : 'complete', value  : 'Hoàn thành', allowStaus : ['destroy']},
+        {key : 'destroy', value : 'Hủy'}
+      ]
     }
   },
   components: {
@@ -49,7 +48,6 @@ module.exports = {
       let self = this
       self.objCart = Object.assign({}, defaultObjCart)
       self.isModify = true
-      self.disChangeStatus = true
     },
     deleteCart: function (cart) {
       let self = this
@@ -82,7 +80,6 @@ module.exports = {
       let self = this
       self.objCart = Object.assign({}, objCart)
       self.isModify = true
-      self.disChangeStatus = true
 
     },
     sortCart (array) {
@@ -93,7 +90,10 @@ module.exports = {
       return returnArray
     },
     getTrangThaiCart (status) {
-      return this.arrayStatus[status]
+      let objStatus =  this.arrayStatus.find((item) => {
+        return item.key === status;
+      })
+      return objStatus.value
     },
     mapSelect2Product (arrayProducts) {
       return arrayProducts.map((product) => {

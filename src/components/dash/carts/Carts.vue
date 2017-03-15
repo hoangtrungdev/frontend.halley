@@ -89,9 +89,9 @@
                     <input type="text" v-model="objCart.customer_time" class="form-control" placeholder="Thời gian giao hàng">
                   </div>
                   <div class="form-group">
-                    <label style="cursor: pointer"  v-on:dblclick="disChangeStatus = !disChangeStatus" >Tình trạng đơn hàng (double click để cập nhật trạng thái)</label>
-                    <select v-model="objCart.status" class="form-control"  :disabled="disChangeStatus">
-                      <option v-for="(value, key) in arrayStatus" :value="key" >{{value}}</option>
+                    <label style="cursor: pointer">Tình trạng đơn hàng </label>
+                    <select v-model="objCart.status" class="form-control">
+                      <option v-for="(status, key) in arrayStatus" :value="status.key" >{{status.value}}</option>
                     </select>
                   </div>
                 </div>
